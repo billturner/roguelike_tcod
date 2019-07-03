@@ -1,7 +1,8 @@
 import tcod as libtcod
 
-from entity import Entity
+from entity import Entity, get_blocking_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
+from game_states import GameStates
 from input_handlers import handle_keys
 from map_objects.game_map import GameMap
 from render_functions import clear_all, render_all
@@ -56,6 +57,8 @@ def main():
     key = libtcod.Key()
     mouse = libtcod.Mouse()
 
+    game_state = GameStates.PLAYERS_TURN
+
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS, key, mouse)
 
@@ -77,18 +80,37 @@ def main():
         exit = action.get("exit")
         fullscreen = action.get("fullscreen")
 
-        if move:
+        if move and game_state == GameStates.PLAYERS_TURN:
             dx, dy = move
-            if not game_map.is_blocked(player.x + dx, player.y + dy):
-                player.move(dx, dy)
+            destination_x = player.x + dx
+            destination_y = player.y + dy
 
-                fov_recompute = True
+            if not game_map.is_blocked(destination_x, destination_y):
+                target = get_blocking_entities_at_location(
+                    entities, destination_x, destination_y)
+
+                if target:
+                    print(f'You kick the {target.name} in the shins!')
+                else:
+                    player.move(dx, dy)
+
+                    fov_recompute = True
+
+                game_state = GameStates.ENEMY_TURN
 
         if exit:
             return True
 
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+
+        if game_state == GameStates.ENEMY_TURN:
+            for entity in entities:
+                if entity != player:
+                    print(
+                        f'The {entity.name} ponders the meaning of existence.')
+
+            game_state = GameStates.PLAYERS_TURN
 
 
 if __name__ == "__main__":
