@@ -1,5 +1,6 @@
 import tcod as libtcod
 
+from components.fighter import Fighter
 from entity import Entity, get_blocking_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
@@ -32,9 +33,10 @@ def main():
         'light_ground': libtcod.Color(200, 180, 50)
     }
 
-    # initial entities
+    # Set up our player
+    fighter_component = Fighter(hp=30, defense=2, power=5)
     player = Entity(int(screen_width / 2),
-                    int(screen_height / 2), "@", libtcod.white, 'Player', blocks=True)
+                    int(screen_height / 2), "@", libtcod.white, 'Player', blocks=True, fighter=fighter_component)
     entities = [player]
 
     libtcod.console_set_custom_font(
@@ -80,6 +82,8 @@ def main():
         exit = action.get("exit")
         fullscreen = action.get("fullscreen")
 
+        player_turn_results = []
+
         if move and game_state == GameStates.PLAYERS_TURN:
             dx, dy = move
             destination_x = player.x + dx
@@ -90,7 +94,7 @@ def main():
                     entities, destination_x, destination_y)
 
                 if target:
-                    print(f'You kick the {target.name} in the shins!')
+                    player_turn_results.extend(player.fighter.attack(target))
                 else:
                     player.move(dx, dy)
 
@@ -106,9 +110,8 @@ def main():
 
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
-                if entity != player:
-                    print(
-                        f'The {entity.name} ponders the meaning of existence.')
+                if entity.ai:
+                    entity.ai.take_turn(player, fov_map, game_map, entities)
 
             game_state = GameStates.PLAYERS_TURN
 
