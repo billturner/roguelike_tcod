@@ -21,6 +21,8 @@ class Fighter:
                 f'{self.owner.name.capitalize()} attacks {target.name} but does no damage.'
             })
 
+        return results
+
     def take_damage(self, amount):
         results = []
 
