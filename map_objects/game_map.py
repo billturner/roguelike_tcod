@@ -108,7 +108,7 @@ class GameMap:
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if randint(0, 100) < 80:
-                    fighter_component = Fighter(hp=10, defense=10, power=3)
+                    fighter_component = Fighter(hp=10, defense=0, power=3)
                     ai_component = BasicMonster()
 
                     monster = Entity(

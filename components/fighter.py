@@ -1,3 +1,8 @@
+import tcod as libtcod
+
+from components.message import Message
+
+
 class Fighter:
     def __init__(self, hp, defense, power):
         self.max_hp = hp
@@ -7,18 +12,20 @@ class Fighter:
 
     def attack(self, target):
         results = []
-        damage = self.power - target.fighter.defense
 
+        damage = self.power - target.fighter.defense
         if damage > 0:
             results.append({
                 'message':
-                f'{self.owner.name.capitalize()} attacks {target.name} for {damage} hit points!'
+                Message(
+                    f'{self.owner.name.capitalize()} attacks {target.name} for {damage} hit points!', libtcod.white)
             })
             results.extend(target.fighter.take_damage(damage))
         else:
             results.append({
                 'message':
-                f'{self.owner.name.capitalize()} attacks {target.name} but does no damage.'
+                Message(
+                    f'{self.owner.name.capitalize()} attacks {target.name} but does no damage.', libtcod.white)
             })
 
         return results
