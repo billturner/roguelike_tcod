@@ -18,3 +18,11 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 
 - README based off of the one created by [Aaron Santos](https://gitlab.com/aaron-santos/roguelikedev-does-the-complete-roguelike-tutorial/tree/master)
 - [TCOD API reference](https://python-tcod.readthedocs.io/en/latest/)
+
+## Post tutorial goals:
+
+- [ ] Get rid of all deprecation notices
+- [ ] Organize the codebase a bit more (all function utilities in one folder, etc)
+- [ ] Add type hinting throughout the app, validating with MyPy
+- [ ] Create a common `colors` dictionary and use everywhere there are colors used
+- [ ] After the above, maybe add ability to change "color themes"
