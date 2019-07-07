@@ -3,6 +3,8 @@ import tcod as libtcod
 
 from components.ai import BasicMonster
 from components.fighter import Fighter
+from components.item import Item
+from components.item_functions import heal
 from entity import Entity
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -43,7 +45,8 @@ class GameMap:
         return self.tiles[x][y].blocked
 
     def make_map(self, max_rooms, room_min_size, room_max_size, map_width,
-                 map_height, player, entities, max_monsters_per_room):
+                 map_height, player, entities, max_monsters_per_room,
+                 max_items_per_room, colors):
         rooms = []
         num_rooms = 0
 
@@ -91,17 +94,19 @@ class GameMap:
                         self.create_h_tunnel(prev_x, new_x, new_y)
 
                 # add monsters to the room
-                self.place_entities(new_room, entities, max_monsters_per_room)
+                self.place_entities(
+                    new_room, entities, max_monsters_per_room, max_items_per_room, colors)
 
                 # append new room to rooms
                 rooms.append(new_room)
                 num_rooms += 1
 
-    def place_entities(self, room, entities, max_monsters_per_room):
-        # get a random number of monsters
-        num_of_monsters = randint(0, max_monsters_per_room)
+    def place_entities(self, room, entities, max_monsters_per_room, max_items_per_room, colors):
+        # get a random number of monsters, and items
+        num_monsters = randint(0, max_monsters_per_room)
+        num_items = randint(0, max_items_per_room)
 
-        for i in range(num_of_monsters):
+        for i in range(num_monsters):
             # choose a random location in the room
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
@@ -112,11 +117,30 @@ class GameMap:
                     ai_component = BasicMonster()
 
                     monster = Entity(
-                        x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                        x, y, 'o', colors.get('orc'), 'Orc',
+                        blocks=True, render_order=RenderOrder.ACTOR,
+                        fighter=fighter_component, ai=ai_component
+                    )
                 else:
                     fighter_component = Fighter(hp=16, defense=1, power=4)
                     ai_component = BasicMonster()
                     monster = Entity(
-                        x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                        x, y, 'T', colors.get('troll'), 'Troll',
+                        blocks=True, render_order=RenderOrder.ACTOR,
+                        fighter=fighter_component, ai=ai_component
+                    )
 
                 entities.append(monster)
+
+        for i in range(num_items):
+            x = randint(room.x1 + 1, room.x2 - 1)
+            y = randint(room.y1 + 1, room.y2 - 1)
+
+            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                item_component = Item(use_function=heal, amount=4)
+                print(item_component)
+                item = Entity(x, y, '!', colors.get('magic_item'),
+                              'Healing Potion', render_order=RenderOrder.ITEM,
+                              item=item_component)
+
+                entities.append(item)
