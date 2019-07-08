@@ -6,8 +6,8 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 
 ## Details on my game:
 
-- This attempt is using the TCOD library (BearLibTerminal version [here](https://github.com/billturner/roguelike_bearlib))
-- TBD
+- This attempt is using the TCOD library
+- Will complete the tutorial as close to the letter as possible, and then modify later
 
 ## If you would like to participate:
 

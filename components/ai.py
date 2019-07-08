@@ -1,4 +1,7 @@
+from random import randint
 import tcod as libtcod
+
+from components.message import Message
 
 
 class BasicMonster:
@@ -14,3 +17,12 @@ class BasicMonster:
                 results.extend(attack_results)
 
         return results
+
+
+class ConfusedMonster:
+    def __init__(self, previous_ai, number_of_turns=10):
+        self.previous_ai = previous_ai
+        self.number_of_turns = number_of_turns
+
+        # http://rogueliketutorials.com/tutorials/tcod/part-9/
+        # We’ll begin by adding the confused AI, to ai.py:
