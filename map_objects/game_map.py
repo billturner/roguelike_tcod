@@ -4,7 +4,7 @@ import tcod as libtcod
 from components.ai import BasicMonster
 from components.fighter import Fighter
 from components.item import Item
-from components.item_functions import cast_fireball, cast_lightning, heal
+from components.item_functions import cast_confuse, cast_fireball, cast_lightning, heal
 from components.message import Message
 from entity import Entity
 from map_objects.rectangle import Rect
@@ -144,11 +144,17 @@ class GameMap:
                     item = Entity(x, y, '!', colors.get('magic_item'),
                                   'Healing Potion', render_order=RenderOrder.ITEM,
                                   item=item_component)
-                elif item_chance < 85:
+                elif item_chance < 80:
                     item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
                         'Left-click a target tile fot the fireball, or right-click to cancel', libtcod.light_cyan), damage=12, radius=3)
                     item = Entity(x, y, '*', colors.get('magic_item'),
                                   'Fireball Scroll', render_order=RenderOrder.ITEM,
+                                  item=item_component)
+                elif item_chance < 90:
+                    item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message(
+                        'Left-click an enemy to confuse it, or right-click to cancel', libtcod.light_cyan), damage=12, radius=3)
+                    item = Entity(x, y, '?', colors.get('magic_item'),
+                                  'Confusion Scroll', render_order=RenderOrder.ITEM,
                                   item=item_component)
                 else:
                     item_component = Item(
