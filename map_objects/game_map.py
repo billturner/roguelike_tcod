@@ -4,9 +4,9 @@ import tcod as libtcod
 from components.ai import BasicMonster
 from components.fighter import Fighter
 from components.item import Item
-from components.item_functions import cast_confuse, cast_fireball, cast_lightning, heal
 from components.message import Message
 from entity import Entity
+from functions.item import cast_confuse, cast_fireball, cast_lightning, heal
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 from render_functions import RenderOrder
