@@ -26,8 +26,11 @@ class Inventory:
 
         return results
 
-    def drop(self, item):
+    def drop_item(self, item):
         results = []
+
+        if self.owner.equipment.main_hand == item or self.owner.equipment.off_hand == item:
+            self.owser.equipment.toggle_equip(item)
 
         item.x = self.owner.x
         item.y = self.owner.y
@@ -45,8 +48,12 @@ class Inventory:
         item_component = item_entity.item
 
         if item_component.use_function is None:
-            results.append({'message': Message(
-                f'The {item_entity.name} can not be used', libtcod.yellow)})
+            equippable_component = item_entity.equippable
+
+            if equippable_component:
+                results.append({'equip': item_entity})
+            else:
+                results.append({'message': Message(f'The {item_entity.name} can not be used.', libtcod.yellow)})
         else:
             if item_component.targeting and not (kwargs.get('target_x') and kwargs.get('target_y')):
                 results.append({'targeting': item_entity})

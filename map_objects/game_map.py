@@ -2,11 +2,13 @@ from random import randint
 import tcod as libtcod
 
 from components.ai import BasicMonster
+from components.equippable import Equippable
 from components.fighter import Fighter
 from components.item import Item
 from components.message import Message
 from components.stairs import Stairs
 from entity import Entity
+from equipment_slots import EquipmentSlots
 from functions.item import cast_confuse, cast_fireball, cast_lightning, heal
 from functions.random import from_dungeon_level, random_choice_from_dict
 from map_objects.rectangle import Rect
@@ -149,6 +151,8 @@ class GameMap:
 
         item_chances = {
             'healing_potion': 35,
+            'sword': from_dungeon_level([[5, 4]], self.dungeon_level),
+            'shield': from_dungeon_level([[15, 8]], self.dungeon_level),
             'lightning_scroll': from_dungeon_level([[25, 4]], self.dungeon_level),
             'fireball_scroll': from_dungeon_level([[25, 6]], self.dungeon_level),
             'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
@@ -189,20 +193,26 @@ class GameMap:
             y = randint(room.y1 + 1, room.y2 - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                item_chance = random_choice_from_dict(item_chances)
+                item_choice = random_choice_from_dict(item_chances)
 
-                if item_chance == 'healing_potion':
+                if item_choice == 'healing_potion':
                     item_component = Item(use_function=heal, amount=40)
                     item = Entity(x, y, '!', colors.get('magic_item'),
                                   'Healing Potion', render_order=RenderOrder.ITEM,
                                   item=item_component)
-                elif item_chance == 'fireball_scroll':
+                elif item_choice == 'sword':
+                    equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=3)
+                    item = Entity(x, y, '/', libtcod.sky, 'Sword', equippable=equippable_component)
+                elif item_choice == 'shield':
+                    equippable_component = Equippable(EquipmentSlots.MAIN_HAND, defense_bonus=1)
+                    item = Entity(x, y, '[', libtcod.darker_orange, 'Shield', equippable=equippable_component)
+                elif item_choice == 'fireball_scroll':
                     item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
                         'Left-click a target tile fot the fireball, or right-click to cancel', libtcod.light_cyan), damage=25, radius=3)
                     item = Entity(x, y, '*', colors.get('magic_item'),
                                   'Fireball Scroll', render_order=RenderOrder.ITEM,
                                   item=item_component)
-                elif item_chance == 'confusion_scroll':
+                elif item_choice == 'confusion_scroll':
                     item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message(
                         'Left-click an enemy to confuse it, or right-click to cancel', libtcod.light_cyan), damage=12, radius=3)
                     item = Entity(x, y, '?', colors.get('magic_item'),
