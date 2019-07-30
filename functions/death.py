@@ -2,7 +2,7 @@ import tcod as libtcod
 
 from components.message import Message
 from game_states import GameStates
-from render_functions import RenderOrder
+from functions.render import RenderOrder
 
 
 def kill_monster(monster):

@@ -65,7 +65,7 @@ def handle_main_menu(key):
     elif key_char == 'b':
         return {'load_game': True}
     elif key_char == 'c' or key.vk == libtcod.KEY_ESCAPE:
-        return {'exit': True}
+        return {'exit_game': True}
 
     return {}
 

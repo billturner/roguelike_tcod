@@ -1,16 +1,16 @@
 import tcod as libtcod
 
+from components.entity import Entity
 from components.equipment import Equipment
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from components.message_log import MessageLog
-from entity import Entity
 from equipment_slots import EquipmentSlots
+from functions.render import RenderOrder
 from game_states import GameStates
 from map_objects.game_map import GameMap
-from render_functions import RenderOrder
 
 
 def get_constants():
@@ -94,7 +94,8 @@ def get_game_variables(constants):
 
     # set up inventory stuff
     equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=2)
-    dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger', equippable=equippable_component)
+    dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger',
+                    equippable=equippable_component)
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 

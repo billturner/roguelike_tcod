@@ -2,7 +2,7 @@ import tcod as libtcod
 from math import sqrt
 
 from components.item import Item
-from render_functions import RenderOrder
+from functions.render import RenderOrder
 
 
 class Entity:

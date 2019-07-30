@@ -1,15 +1,15 @@
 import tcod as libtcod
 
+from components.entity import get_blocking_entities_at_location
 from components.message import Message
 from components.menus import main_menu, message_box
-from death_functions import kill_monster, kill_player
-from entity import get_blocking_entities_at_location
-from fov_functions import initialize_fov, recompute_fov
 from functions.data import load_game
+from functions.death import kill_monster, kill_player
+from functions.fov import initialize_fov, recompute_fov
 from functions.initialize import get_constants, get_game_variables
+from functions.render import clear_all, render_all
 from game_states import GameStates
 from input_handlers import handle_keys, handle_main_menu, handle_mouse
-from render_functions import clear_all, render_all
 
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
@@ -202,10 +202,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     dequipped = equip_result.get('dequipped')
 
                     if equipped:
-                        message_log.add_message(Message(f'You equipped the {equipped.name}'))
+                        message_log.add_message(
+                            Message(f'You equipped the {equipped.name}'))
 
                     if dequipped:
-                        message_log.add_message(Message(f'You dequipped the {dequipped.name}'))
+                        message_log.add_message(
+                            Message(f'You dequipped the {dequipped.name}'))
 
                 game_state = GameStates.ENEMY_TURN
 
@@ -331,6 +333,7 @@ def main():
                 except FileNotFoundError:
                     show_load_error_message = True
             elif exit_game:
+                print('I am here')
                 break
 
         else:
