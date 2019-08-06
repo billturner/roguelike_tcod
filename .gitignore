@@ -114,3 +114,6 @@ dmypy.json
 .pyre/
 
 .vscode/
+
+# save game files
+data/savegame.*

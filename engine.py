@@ -3,7 +3,7 @@ import tcod as libtcod
 from components.entity import get_blocking_entities_at_location
 from components.message import Message
 from components.menus import main_menu, message_box
-from functions.data import load_game
+from functions.data import load_game, save_game
 from functions.death import kill_monster, kill_player
 from functions.fov import initialize_fov, recompute_fov
 from functions.initialize import get_constants, get_game_variables
@@ -155,6 +155,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
+                save_game(player, entities, game_map, message_log, game_state)
+
                 return True
 
         if fullscreen:
@@ -275,12 +277,18 @@ def main():
         libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD
     )
     libtcod.console_init_root(
-        constants['screen_width'], constants['screen_height'], constants['window_title'], False
+        constants['screen_width'],
+        constants['screen_height'],
+        constants['window_title'],
+        fullscreen=False,
+        renderer=libtcod.RENDERER_SDL2,
+        order='F',
+        vsync=False
     )
 
-    con = libtcod.console_new(
+    con = libtcod.console.Console(
         constants['screen_width'], constants['screen_height'])
-    panel = libtcod.console_new(
+    panel = libtcod.console.Console(
         constants['screen_width'], constants['panel_height'])
 
     player = None
@@ -333,11 +341,10 @@ def main():
                 except FileNotFoundError:
                     show_load_error_message = True
             elif exit_game:
-                print('I am here')
                 break
 
         else:
-            libtcod.console_clear(con)
+            con.clear()
             play_game(player, entities, game_map, message_log,
                       game_state, con, panel, constants)
 

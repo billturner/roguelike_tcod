@@ -11,7 +11,7 @@ def menu(con, header, options, width, screen_width, screen_height):
     height = len(options) + header_height
 
     # create an off-screen console for menu's window
-    window = libtcod.console_new(width, height)
+    window = libtcod.console.Console(width, height)
 
     # print header, with auto-wrap
     libtcod.console_set_default_foreground(window, libtcod.white)
@@ -36,7 +36,7 @@ def menu(con, header, options, width, screen_width, screen_height):
 
 def character_screen(player, character_screen_width, character_screen_height,
                      screen_width, screen_height):
-    window = libtcod.console_new(
+    window = libtcod.console.Console(
         character_screen_width, character_screen_height)
 
     libtcod.console_set_default_foreground(window, libtcod.white)
@@ -82,7 +82,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
 
 def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
     options = [
-        f'Consititution (+20 HP, from {player.fighter.max_hp}',
+        f'Consititution (+20 HP, from {player.fighter.max_hp})',
         f'Strength (+1 attack, from {player.fighter.power}',
         f'Agility (+1 defense, from {player.fighter.defense}'
     ]
