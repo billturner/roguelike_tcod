@@ -1,4 +1,5 @@
 import tcod as libtcod
+from typing import Dict, Tuple
 
 from components.entity import Entity
 from components.equipment import Equipment
@@ -13,35 +14,35 @@ from game_states import GameStates
 from map_objects.game_map import GameMap
 
 
-def get_constants():
-    window_title = 'Roguelike Tutorial LibTCOD'
+def get_constants() -> Dict:
+    window_title: str = 'Roguelike Tutorial LibTCOD'
 
-    screen_width = 80
-    screen_height = 50
+    screen_width: int = 80
+    screen_height: int = 50
 
-    bar_width = 20
-    panel_height = 7
-    panel_y = screen_height - panel_height
+    bar_width: int = 20
+    panel_height: int = 7
+    panel_y: int = screen_height - panel_height
 
-    message_x = bar_width + 2
-    message_width = screen_width - bar_width - 2
-    message_height = panel_height - 1
+    message_x: int = bar_width + 2
+    message_width: int = screen_width - bar_width - 2
+    message_height: int = panel_height - 1
 
-    map_width = 80
-    map_height = 43
+    map_width: int = 80
+    map_height: int = 43
 
-    room_max_size = 10
-    room_min_size = 6
-    max_rooms = 30
+    room_max_size: int = 10
+    room_min_size: int = 6
+    max_rooms: int = 30
 
-    fov_algorithm = 0
-    fov_light_walls = True
-    fov_radius = 10
+    fov_algorithm: int = 0
+    fov_light_walls: bool = True
+    fov_radius: int = 10
 
-    max_monsters_per_room = 3
-    max_items_per_room = 2
+    max_monsters_per_room: int = 3
+    max_items_per_room: int = 2
 
-    colors = {
+    colors: Dict = {
         'dark_wall': libtcod.Color(169, 169, 169),  # CSS DarkGray
         'dark_ground': libtcod.Color(0, 0, 0),  # CSS Black
         'light_wall': libtcod.Color(130, 110, 50),
@@ -52,7 +53,7 @@ def get_constants():
         'troll': libtcod.darker_green
     }
 
-    constants = {
+    constants: Dict = {
         'window_title': window_title,
         'screen_width': screen_width,
         'screen_height': screen_height,
@@ -78,7 +79,7 @@ def get_constants():
     return constants
 
 
-def get_game_variables(constants):
+def get_game_variables(constants: Dict) -> Tuple:
     # initialize player/fighter and inventory
     fighter_component = Fighter(hp=100, defense=1, power=2)
     inventory_component = Inventory(26)

@@ -1,7 +1,10 @@
 import tcod as libtcod
 
+from map_objects.game_map import GameMap
 
-def initialize_fov(game_map):
+
+# TODO: (typing) figure out Map return value
+def initialize_fov(game_map: GameMap):
     fov_map = libtcod.map_new(game_map.width, game_map.height)
 
     for y in range(game_map.height):

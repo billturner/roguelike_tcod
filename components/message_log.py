@@ -1,16 +1,17 @@
 from textwrap import wrap
+from typing import List
 
 from components.message import Message
 
 
 class MessageLog:
-    def __init__(self, x, width, height):
-        self.messages = []
+    def __init__(self, x: int, width: int, height: int):
+        self.messages: List[Message] = []
         self.x = x
         self.width = width
         self.height = height
 
-    def add_message(self, message):
+    def add_message(self, message: Message) -> None:
         # split the message if necessary
         new_msg_lines = wrap(message.text, self.width)
 

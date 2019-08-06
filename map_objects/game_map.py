@@ -10,7 +10,7 @@ from components.message import Message
 from components.stairs import Stairs
 from equipment_slots import EquipmentSlots
 from functions.item import cast_confuse, cast_fireball, cast_lightning, heal
-from functions.random import from_dungeon_level, random_choice_from_dict
+from functions.randomize import from_dungeon_level, random_choice_from_dict
 from functions.render import RenderOrder
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
