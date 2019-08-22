@@ -116,4 +116,4 @@ dmypy.json
 .vscode/
 
 # save game files
-data/savegame.*
+data/savegame*
