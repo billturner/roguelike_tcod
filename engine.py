@@ -4,12 +4,12 @@ import tcod.event
 from components.entity import get_blocking_entities_at_location
 from components.message import Message
 from components.menus import main_menu, message_box
+from constants.game_states import GameStates
 from functions.data import load_game, save_game
 from functions.death import kill_monster, kill_player
 from functions.fov import initialize_fov, recompute_fov
 from functions.initialize import get_constants, get_game_variables
 from functions.render import clear_all, render_all
-from game_states import GameStates
 from handlers.input import InputHandler
 
 

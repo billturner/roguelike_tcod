@@ -1,4 +1,4 @@
-import tcod as libtcod
+import tcod
 
 from components.message import Message
 
@@ -14,14 +14,14 @@ class Inventory:
         if len(self.items) >= self.capacity:
             results.append({
                 'item_added': None,
-                'message': Message('You can not carry anymore; inventory is full.', libtcod.yellow)
+                'message': Message('You can not carry anymore; inventory is full.', tcod.yellow)
             })
         else:
 
             self.items.append(item)
             results.append({
                 'item_added': item,
-                'message': Message(f'You pick up the {item.name}.', libtcod.blue)
+                'message': Message(f'You pick up the {item.name}.', tcod.blue)
             })
 
         return results
@@ -38,7 +38,7 @@ class Inventory:
         self.remove_item(item)
 
         results.append({'item_dropped': item, 'message': Message(
-            f'You dropped the {item.name}', libtcod.yellow)})
+            f'You dropped the {item.name}', tcod.yellow)})
 
         return results
 
@@ -53,7 +53,8 @@ class Inventory:
             if equippable_component:
                 results.append({'equip': item_entity})
             else:
-                results.append({'message': Message(f'The {item_entity.name} can not be used.', libtcod.yellow)})
+                results.append(
+                    {'message': Message(f'The {item_entity.name} can not be used.', tcod.yellow)})
         else:
             if item_component.targeting and not (kwargs.get('target_x') and kwargs.get('target_y')):
                 results.append({'targeting': item_entity})

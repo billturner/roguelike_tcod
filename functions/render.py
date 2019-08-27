@@ -2,7 +2,7 @@ from enum import Enum, auto
 import tcod
 
 from components.menus import character_screen, inventory_menu, level_up_menu
-from game_states import GameStates
+from constants.game_states import GameStates
 
 
 class RenderOrder(Enum):

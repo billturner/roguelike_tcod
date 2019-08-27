@@ -1,10 +1,17 @@
 import tcod.event
 from typing import Dict
 
-from game_states import GameStates
+from constants.game_states import GameStates
 
 
 class InputHandler(tcod.event.EventDispatch):
+    """
+    Handle keyboard and mouse input using tcod.event
+
+    With many thanks to theoldestnoob and their input
+    code: https://github.com/theoldestnoob/2019-roguelike-tutorial
+    """
+
     def __init__(self):
         self._input_queue = []
         self.state: GameStates = GameStates.PLAYERS_TURN

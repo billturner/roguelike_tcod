@@ -1,5 +1,5 @@
 from random import randint
-import tcod as libtcod
+import tcod
 
 from components.message import Message
 
@@ -9,7 +9,7 @@ class BasicMonster:
         results = []
         monster = self.owner
 
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if tcod.map_is_in_fov(fov_map, monster.x, monster.y):
             if monster.distance_to(target) >= 2:
                 monster.move_astar(target, entities, game_map)
             elif target.fighter.hp > 0:
@@ -39,6 +39,6 @@ class ConfusedMonster:
             else:
                 self.owner.ai = self.previous_ai
                 results.append({'message': Message(
-                    f'The {self.owner.name} is no longer confused.', libtcod.red)})
+                    f'The {self.owner.name} is no longer confused.', tcod.red)})
 
             return results

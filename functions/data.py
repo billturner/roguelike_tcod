@@ -2,9 +2,9 @@ import os
 import shelve
 from typing import List, Tuple
 
-from game_states import GameStates
 from components.entity import Entity
 from components.message_log import MessageLog
+from constants.game_states import GameStates
 from map_objects.game_map import GameMap
 
 

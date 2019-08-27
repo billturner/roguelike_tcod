@@ -3,7 +3,7 @@ from typing import Tuple
 
 from components.entity import Entity
 from components.message import Message
-from game_states import GameStates
+from constants.game_states import GameStates
 from functions.render import RenderOrder
 
 

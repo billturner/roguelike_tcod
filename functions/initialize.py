@@ -8,9 +8,9 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from components.message_log import MessageLog
-from equipment_slots import EquipmentSlots
+from constants.equipment_slots import EquipmentSlots
+from constants.game_states import GameStates
 from functions.render import RenderOrder
-from game_states import GameStates
 from map_objects.game_map import GameMap
 
 
