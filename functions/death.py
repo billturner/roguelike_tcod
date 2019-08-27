@@ -1,4 +1,4 @@
-import tcod as libtcod
+import tcod
 from typing import Tuple
 
 from components.entity import Entity
@@ -9,10 +9,10 @@ from functions.render import RenderOrder
 
 def kill_monster(monster: Entity) -> Message:
     death_message = Message(
-        f'{monster.name.capitalize()} is dead!', libtcod.orange)
+        f'{monster.name.capitalize()} is dead!', tcod.orange)
 
     monster.char = '%'
-    monster.color = libtcod.dark_red
+    monster.color = tcod.dark_red
     monster.blocks = False
     monster.fighter = None
     monster.ai = None
@@ -24,6 +24,6 @@ def kill_monster(monster: Entity) -> Message:
 
 def kill_player(player: Entity) -> Tuple[Message, GameStates]:
     player.char = '%'
-    player.color = libtcod.dark_red
+    player.color = tcod.dark_red
 
-    return Message('You died!', libtcod.red), GameStates.PLAYER_DEAD
+    return Message('You died!', tcod.red), GameStates.PLAYER_DEAD

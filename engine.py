@@ -11,24 +11,18 @@ from functions.initialize import get_constants, get_game_variables
 from functions.render import clear_all, render_all
 from game_states import GameStates
 from handlers.input import InputHandler
-from input_handlers import handle_keys, handle_main_menu, handle_mouse
 
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
     fov_recompute = True
     fov_map = initialize_fov(game_map)
 
-    key = tcod.Key()
+    input_handler = InputHandler()
+    previous_game_state = game_state
+    targeting_item = None
     mouse = tcod.Mouse()
 
-    previous_game_state = game_state
-
-    targeting_item = None
-
     while True:
-        tcod.sys_check_for_event(
-            tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
-
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y, constants['fov_radius'],
                           constants['fov_light_walls'], constants['fov_algorithm'])
@@ -43,23 +37,26 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
         clear_all(con, entities)
 
-        action = handle_keys(key, game_state)
-        mouse_action = handle_mouse(mouse)
+        for event in tcod.event.get():
+            input_handler.dispatch(event)
 
-        move = action.get("move")
-        wait = action.get('wait')
-        pickup = action.get('pickup')
-        show_inventory = action.get('show_inventory')
-        drop_inventory = action.get('drop_inventory')
-        inventory_index = action.get('inventory_index')
-        take_stairs = action.get('take_stairs')
-        level_up = action.get('level_up')
-        show_character_screen = action.get('show_character_screen')
-        exit = action.get("exit")
-        fullscreen = action.get("fullscreen")
+        input_handler.set_game_state(game_state)
+        user_input = input_handler.get_user_input()
 
-        left_click = mouse_action.get('left_click')
-        right_click = mouse_action.get('right_click')
+        move = user_input.get('move')
+        wait = user_input.get('wait')
+        pickup = user_input.get('pickup')
+        show_inventory = user_input.get('show_inventory')
+        drop_inventory = user_input.get('drop_inventory')
+        inventory_index = user_input.get('inventory_index')
+        take_stairs = user_input.get('take_stairs')
+        level_up = user_input.get('level_up')
+        show_character_screen = user_input.get('show_character_screen')
+        exit = user_input.get("exit")
+        fullscreen = user_input.get("fullscreen")
+
+        left_click = user_input.get('left_click')
+        right_click = user_input.get('right_click')
 
         player_turn_results = []
 
@@ -119,7 +116,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                         player, message_log, constants)
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
-                    tcod.console_clear(con)
+                    con.clear()
 
                     break
                 else:
@@ -159,7 +156,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             else:
                 save_game(player, entities, game_map, message_log, game_state)
 
-                return True
+                raise SystemExit()
 
         if fullscreen:
             tcod.console_set_fullscreen(not tcod.console_is_fullscreen())

@@ -1,4 +1,4 @@
-import tcod as libtcod
+import tcod
 
 from components.ai import ConfusedMonster
 from components.message import Message
@@ -12,9 +12,9 @@ def cast_confuse(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not tcod.map_is_in_fov(fov_map, target_x, target_y):
         results.append({'consumed': False, 'message': Message(
-            'You can not target a tile outside of your field of view.', libtcod.yellow)})
+            'You can not target a tile outside of your field of view.', tcod.yellow)})
         return results
 
     for entity in entities:
@@ -25,13 +25,13 @@ def cast_confuse(*args, **kwargs):
             entity.ai = confused_ai
 
             results.append({'consumed': True, 'message': Message(
-                f'The eyes of the {entity.name} look vacant, as they start to stumble around.', libtcod.light_green)})
+                f'The eyes of the {entity.name} look vacant, as they start to stumble around.', tcod.light_green)})
 
             break
 
     else:
         results.append({'consumed': False, 'message': Message(
-            'There is no targetable enemy at the location.', libtcod.yellow)})
+            'There is no targetable enemy at the location.', tcod.yellow)})
 
     return results
 
@@ -46,18 +46,18 @@ def cast_fireball(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not tcod.map_is_in_fov(fov_map, target_x, target_y):
         results.append({'consumed': False, 'message': Message(
-            'You can not target a tile outside of your field of view', libtcod.yellow)})
+            'You can not target a tile outside of your field of view', tcod.yellow)})
         return results
 
     results.append({'consumed': True, 'message': Message(
-        f'The fireball explodes, burning everything in a {radius} tile radius.', libtcod.orange)})
+        f'The fireball explodes, burning everything in a {radius} tile radius.', tcod.orange)})
 
     for entity in entities:
         if entity.distance(target_x, target_y) <= radius and entity.fighter:
             results.append({'message': Message(
-                f'The {entity.name} gets burned for {damage} hit points!', libtcod.orange)})
+                f'The {entity.name} gets burned for {damage} hit points!', tcod.orange)})
             results.extend(entity.fighter.take_damage(damage))
 
     return results
@@ -76,7 +76,7 @@ def cast_lightning(*args, **kwargs):
     closest_distance = maximum_range + 1
 
     for entity in entities:
-        if entity.fighter and entity != caster and libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+        if entity.fighter and entity != caster and tcod.map_is_in_fov(fov_map, entity.x, entity.y):
             distance = caster.distance_to(entity)
 
             if distance < closest_distance:
@@ -85,11 +85,11 @@ def cast_lightning(*args, **kwargs):
 
     if target:
         results.append({'consumed': True, 'target': target, 'message': Message(
-            f'A lightning bolt strikes the {target.name} with a loud thunder! The damage is {damage}.', libtcod.orange)})
+            f'A lightning bolt strikes the {target.name} with a loud thunder! The damage is {damage}.', tcod.orange)})
         results.extend(target.fighter.take_damage(damage))
     else:
         results.append({'consumed': False, 'target': None, 'message': Message(
-            'No enemy close enough to strike', libtcod.red)})
+            'No enemy close enough to strike', tcod.red)})
 
     return results
 
@@ -102,10 +102,10 @@ def heal(*args, **kwargs):
 
     if entity.fighter.hp == entity.fighter.max_hp:
         results.append({'consumed': False, 'message': Message(
-            'You are already at full health', libtcod.yellow)})
+            'You are already at full health', tcod.yellow)})
     else:
         entity.fighter.heal(amount)
         results.append({'consumed': True, 'message': Message(
-            'Your wounds start to feel better!', libtcod.green)})
+            'Your wounds start to feel better!', tcod.green)})
 
     return results

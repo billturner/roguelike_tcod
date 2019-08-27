@@ -1,4 +1,4 @@
-import tcod as libtcod
+import tcod
 from typing import Dict, Tuple
 
 from components.entity import Entity
@@ -15,7 +15,7 @@ from map_objects.game_map import GameMap
 
 
 def get_constants() -> Dict:
-    window_title: str = 'Roguelike Tutorial LibTCOD'
+    window_title: str = 'Roguelike Tutorial tcod'
 
     screen_width: int = 80
     screen_height: int = 50
@@ -43,14 +43,14 @@ def get_constants() -> Dict:
     max_items_per_room: int = 2
 
     colors: Dict = {
-        'dark_wall': libtcod.Color(169, 169, 169),  # CSS DarkGray
-        'dark_ground': libtcod.Color(0, 0, 0),  # CSS Black
-        'light_wall': libtcod.Color(130, 110, 50),
-        'light_ground': libtcod.Color(200, 180, 50),
-        'player': libtcod.white,
-        'magic_item': libtcod.violet,
-        'orc': libtcod.desaturated_green,
-        'troll': libtcod.darker_green
+        'dark_wall': tcod.Color(169, 169, 169),  # CSS DarkGray
+        'dark_ground': tcod.Color(0, 0, 0),  # CSS Black
+        'light_wall': tcod.Color(130, 110, 50),
+        'light_ground': tcod.Color(200, 180, 50),
+        'player': tcod.white,
+        'magic_item': tcod.violet,
+        'orc': tcod.desaturated_green,
+        'troll': tcod.darker_green
     }
 
     constants: Dict = {
@@ -95,7 +95,7 @@ def get_game_variables(constants: Dict) -> Tuple:
 
     # set up inventory stuff
     equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=2)
-    dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger',
+    dagger = Entity(0, 0, '-', tcod.sky, 'Dagger',
                     equippable=equippable_component)
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
