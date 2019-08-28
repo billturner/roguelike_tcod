@@ -22,15 +22,16 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 ## Post tutorial goals:
 
 - [x] Get rid of all deprecation notices
-- [ ] Organize the codebase a bit more (all function utilities in one folder, etc)
-  - [ ] move constants to own directory
-- [ ] fix targeting and spell casting/canceling
+- [x] Organize the codebase a bit more (all function utilities in one folder, etc)
+  - [x] move constants to own directory
 - [ ] Fix dying, since right now you can just keep playing
-  - [ ] set health to zero (can be negative)
+  - [x] set health to zero (can be negative)
+  - [ ] don't save game where player is dead on exit
   - [ ] don't allow movement
   - [ ] display some kind of message (fading in?)
+- [ ] fix targeting and spell casting/canceling
 - [ ] use a tileset
 - [ ] have messages fading out at the top?
 - [ ] Add type hinting throughout the app, validating with MyPy
 - [ ] Create a common `colors` dictionary and use everywhere there are colors used
-- [ ] After the above, maybe add ability to change "color themes"
+  - [ ] add additional "themes" once color theme/naming is done

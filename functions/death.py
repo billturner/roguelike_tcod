@@ -25,5 +25,6 @@ def kill_monster(monster: Entity) -> Message:
 def kill_player(player: Entity) -> Tuple[Message, GameStates]:
     player.char = '%'
     player.color = tcod.dark_red
+    player.fighter.hp = 0
 
     return Message('You died!', tcod.red), GameStates.PLAYER_DEAD

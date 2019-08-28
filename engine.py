@@ -40,6 +40,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         for event in tcod.event.get():
             input_handler.dispatch(event)
 
+        # print(f'Current game state: {game_state}')
         input_handler.set_game_state(game_state)
         user_input = input_handler.get_user_input()
 
@@ -154,7 +155,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
-                save_game(player, entities, game_map, message_log, game_state)
+                if game_state != GameStates.PLAYER_DEAD:
+                    save_game(player, entities, game_map,
+                              message_log, game_state)
 
                 raise SystemExit()
 
